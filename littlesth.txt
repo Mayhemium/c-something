@@ -1,0 +1,111 @@
+using System;
+
+public class Program{
+	public static void Main (string[] args) {
+		//Console.WriteLine ("Hello World");
+		//int x = 1;
+		//int y = 400;
+
+		//findEvenDigits(x,y,true);
+
+		// int x = 1;
+		// int y = 100;
+		// int z = 100;
+		// Console.WriteLine(guessNumberInRange(x,y,z));
+
+		// Console.WriteLine(caesarCipher("abcxyz",false));
+		
+		//int[,] map = new int[10,10];
+		//map[0,0] = 1;
+		//moveBot(map,"t1",1);
+		
+		//string bytestring = "1,0,1";
+		//Console.WriteLine(byteDivisibleByFive(bytestring));
+	}
+	
+	static bool byteDivisibleByFive(string myByte){
+		myByte = myByte.Replace(",",string.Empty);
+		int number = 0;
+		for(int i = myByte.Length-1; i>=0; i--){
+			if(myByte[i] == '1')
+				number += (int)(Math.Pow(2,myByte.Length-1-i));
+		}
+		if(number%5==0)
+			return true;
+		return false;
+	}
+
+	static void moveBot(int[,] map, string direction, int botId = 1){
+		for(int i = 0; i < map.GetLength(0); i++){
+			for(int j = 0; j < map.GetLength(1); j++){
+				if(map[i,j]==botId){
+					map[i,j] = 0;
+					switch(direction[0]){
+						case 't':
+							map[(i-(int)direction[1])%map.GetLength(0),j] = botId;
+							break;
+						case 'b':
+							map[(i+(int)direction[1])%map.GetLength(0),j] = botId;
+							break;
+						case 'r':
+							map[i,(j+(int)direction[1])%map.GetLength(1)] = botId;
+							break;
+						case 'l':
+							map[i,(j-(int)direction[1])%map.GetLength(1)] = botId;
+							break;
+					}
+				}
+			}
+		}
+	}
+
+	static string caesarCipher(string s,  bool cipher, int count = 4){
+		string result = "";
+		foreach(char c in s){
+			Console.WriteLine((int)c);
+			if(cipher){
+				result+=(char)(c+count<123?c+count:96+(c-122)+count);
+			}else{
+				result+=(char)(c-count>96?c-count:122+(c-96)-count);
+			}
+		}
+		return result;
+	}
+
+	static int guessNumberInRange(int start, int finish, int liczba){
+		finish++;
+		int guess = 0;
+		int count = 0;
+		while(guess != liczba){
+			guess = (start + finish)/2;
+			Console.WriteLine(guess);
+			if(guess>liczba){
+				finish = (start+finish)/2;
+			}else{
+				start = (start+finish)/2;
+			}
+			count++;
+		}
+		return count;
+	}
+
+	static void findEvenDigits(int start,int end,bool even = true){
+		start++;
+		bool wynik;
+		int zmienna;
+		while(start<end){
+			wynik = true;
+			zmienna = start;
+			while(zmienna>=1){
+				if(zmienna%2!=0 && even)
+					wynik = false;
+				if(zmienna%2==0 && !even)
+					wynik = false;
+				zmienna /= 10;
+			}
+			if(wynik)
+				Console.WriteLine(start);
+			start++;
+		}
+	}
+}
